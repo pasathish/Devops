@@ -1,5 +1,5 @@
 node(){
-  stage(test){
+  stage("test"){
     print("All is well")
   }
 }
