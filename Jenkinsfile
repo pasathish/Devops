@@ -6,7 +6,7 @@ node('worker') {
 
     currentStage = 'Sonar Analysis'
     stage(currentStage) {
-        withSonarQubeEnv('TAI_SONAR') {
+//         withSonarQubeEnv('SONAR') {
             mvnImage.inside() {
                 // Increment version number. Required by SonarQube
                 // for comparison with previous_version [leak period]
@@ -16,7 +16,7 @@ node('worker') {
                 sh('echo "Sonar analysis is in progress.."')
                 sh('mvn sonar:sonar')
             }
-      }
+//       }
     }
     currentStage = 'Quality Gate Check'
     stage(currentStage) {
