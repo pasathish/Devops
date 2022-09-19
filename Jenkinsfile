@@ -11,7 +11,7 @@ node('worker') {
 
     currentStage = 'Sonar Analysis'
     stage(currentStage) {
-//         withSonarQubeEnv('SONAR') {
+         withSonarQubeEnv('SONAR') {
             mvnImage.inside() {
                 // Increment version number. Required by SonarQube
                 // for comparison with previous_version [leak period]
@@ -19,9 +19,9 @@ node('worker') {
                 sh('mvn build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.' + "${nxtBuildNumber}" + '.0 versions:commit')
                 sh('mvn clean install');
                 sh('echo "Sonar analysis is in progress.."')
-                sh('mvn sonar:sonar')
+                sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=devops"
             }
-//       }
+       }
     }
     currentStage = 'Quality Gate Check'
     stage(currentStage) {
