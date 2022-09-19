@@ -36,6 +36,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>org.sonarsource.java</groupId>
+		    <artifactId>sonar-java-plugin</artifactId>
+		    <version>4.11.0.10660</version>
+		    <scope>provided</scope>
+		</dependency>
 		
 <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
 <dependency>
