@@ -19,7 +19,7 @@ node('worker') {
                 sh('mvn build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.' + "${nxtBuildNumber}" + '.0 versions:commit')
                 sh('mvn clean install');
                 sh('echo "Sonar analysis is in progress.."')
-                sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=devops"
+                sh "mvn clean verify sonar:sonar -Dsonar.projectKey=devops"
             }
        }
     }
