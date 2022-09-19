@@ -2,6 +2,11 @@
 
 node('worker') {
 
+    stage('Checkout code') {
+        steps {
+            checkout scm
+        }
+    }
     def mvnImage = docker.image('maven:3.5.4-jdk-11');
 
     currentStage = 'Sonar Analysis'
