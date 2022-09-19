@@ -1,5 +1,11 @@
-FROM openjdk:11
+FROM maven:3.6.3-jdk-11-slim AS build
+RUN mkdir -p /workspace
+WORKDIR /workspace
+COPY pom.xml /workspace
+COPY src /workspace/src
+RUN mvn -B -f pom.xml clean package -DskipTests 
 
-ADD target/merchant-0.0.1-SNAPSHOT.jar merchant-0.0.1-SNAPSHOT.jar
-
-ENTRYPOINT exec java -jar /merchant-0.0.1-SNAPSHOT.jar
+FROM openjdk:11-jdk-slim
+COPY --from=build /workspace/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]

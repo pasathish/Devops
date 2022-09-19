@@ -1,30 +1,48 @@
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            agent {
+#!/usr/bin/env groovy
 
-                docker {
-                    image 'maven:3.8.1-adoptopenjdk-11'
-                    args '-v $HOME/.m2:/root/.m2'
-                    reuseNode true
-                }
+node('worker') {
+
+    def mvnImage = docker.image('maven:3.5.4-jdk-11');
+
+    currentStage = 'Sonar Analysis'
+    stage(currentStage) {
+        withSonarQubeEnv('TAI_SONAR') {
+            mvnImage.inside() {
+                // Increment version number. Required by SonarQube
+                // for comparison with previous_version [leak period]
+                nxtBuildNumber = lastSuccessfulBuild(currentBuild) == 0 ? 1 : lastSuccessfulBuild(currentBuild).getNumber() + 1
+                sh('mvn build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.' + "${nxtBuildNumber}" + '.0 versions:commit')
+                sh('mvn clean install');
+                sh('echo "Sonar analysis is in progress.."')
+                sh('mvn sonar:sonar')
             }
-            steps {
-                script{
-                    // withSonarQubeEnv('sonarserver') { 
-                    //     sh "mvn clean sonar:sonar"
-                    // }
-                    // timeout(time: 1, unit: 'HOURS') {
-                    //     def qg = waitForQualityGate()
-                    //       if (qg.status != 'OK') {
-                    //         error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                    //       }
-                    //   }
-                      sh "mvn clean install"
-		  
-                 	}
-            }
+      }
+    }
+    currentStage = 'Quality Gate Check'
+    stage(currentStage) {
+        // We are asking process to sleep for 10 Seconds so that SONAR server can complete processing.
+        // Change this value if SONAR performing very slow in analysing, also find out the reason for analysing < 10s,
+        // current processing time is ~2 to 4 Seconds on an average.
+        sleep(20)
+        timeout(time: 60, unit: 'SECONDS') {
+            // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+            // true = set pipeline to UNSTABLE
+            // TODO: Set to true once quality gate threshold is set.
+            waitForQualityGate abortPipeline: true
         }
+    }
+}
+
+@NonCPS
+def lastSuccessfulBuild(build) {
+    println "Last Build " + build
+    if (build != null) {
+        if (build.result.toString().equals("SUCCESS")) {
+            return build;
+        }
+        //Recurse now to handle in chronological order
+        lastSuccessfulBuild(build.getPreviousBuild());
+    } else {
+        return 0
     }
 }
