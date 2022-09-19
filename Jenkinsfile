@@ -3,7 +3,9 @@
 node('worker') {
 
     stage('Checkout code') {
-            checkout scm
+         checkout([$class: 'GitSCM',
+         branches: [[name: '*/main']],
+         userRemoteConfigs: [[url: 'https://github.com/SathishkumarDemoProject1/Devops.git']]])
     }
     def mvnImage = docker.image('maven:3.5.4-jdk-11');
 
