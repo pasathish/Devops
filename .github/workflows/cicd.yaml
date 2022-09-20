@@ -75,6 +75,7 @@ jobs:
     name: Publish - Docker Hub
     runs-on: ubuntu-18.04
     needs: [test, sonar]
+    environment: main
     env:
       REPO: ${{ secrets.DOCKER_REPO }}
 
