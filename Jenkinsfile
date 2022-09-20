@@ -36,6 +36,13 @@ node('worker') {
             waitForQualityGate abortPipeline: true
         }
     }
+
+    currentStage = 'Build docker image'
+    stage(currentStage) {
+       sh 'docker build -t sathishkumar281995/merchant:latest .'
+       sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+       sh 'docker push sathishkumar281995/merchant:latest .'
+    }
 }
 
 @NonCPS
