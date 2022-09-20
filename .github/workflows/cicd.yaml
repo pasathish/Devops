@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://tired-garlics-grow-49-37-215-196.loca.lt
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184:sonar
+        run: mvn clean verify sonar:sonar -Dsonar.projectKey=devops -Dsonar.host.url=https://tired-garlics-grow-49-37-215-196.loca.lt -Dsonar.login=sqp_0a98899f49ddd772b243a815b69e77b5404c8e1e
           
   artifact:
     name: Publish - GitHub Packages
