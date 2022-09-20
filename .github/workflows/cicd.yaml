@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://giant-horses-brake-106-198-25-203.loca.lt
+          SONAR_HOST_URL: https://tired-garlics-grow-49-37-215-196.loca.lt
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184:sonar
           
   artifact:
