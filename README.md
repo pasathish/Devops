@@ -1,38 +1,41 @@
 # Devops
 Devops repo 
 
-
- Monday:
- On Demand Subscription option is implemented(Pull model) with 5min cache. Initially it was manual trigger from app function. 
+Last week Terraform part was pending.
+Monday:
+1. Completed the Terraform coding part.
+2. Tried to test the code in azure devops pipeline.
+3. But due to some service connection misconfiguration I couldn't test the full flow.
+4. From jira to Azure pipeline flow is working. But the pipeline execution still failing.
 
 Tuesday:
-1. Deployed the Azure function template to expose the endpoint for trigger.
-2. Jira webhook created to trigger app function . Initially it was not triggering later I made tweak to make the trigger. 
-3. Verified that the function is triggered via app-function metrics.
-4. Facing issues with logs to know the Json format of Data retrived from trigger.
-5. Fixed the subscription dynamic filed. Due to token expiry data didn't loaded properly.  Changed the Function authentication form FUNCTION to Anonymous.
+1. Pipeline issue resolved, But adding fresh secretkeys to Service-connection. Post that Terraform Plan was successful in azure pipeline.
+2. But the Terraform apply was failing with permission issue for AD.
+3. Later fixed it by changing the service connection to Application_Admin. 
+4. One more issue noticed that the User select and its associated email is not similar to Azure AD user.
+5. So whatever jira value that we select in Jira Form, Won't map with Azure AD data.
 
 Wednesday:
-1. Jira form datas cannot be pushed from jira to Azure function. Feature is not availabe so far. Only custome_fiels are supported right now.
-https://jira.atlassian.com/browse/JSDCLOUD-10697 - Blocker. Atlassin is started thier work to support this on july 29th 2024. Not sure when this will be released.
-2. Configured the logging setup for app-fuction. Which helps to identifying the json structure in appfunction.
-3. Creates 4 to 5 service request and noticed the form field were not populated via jira webhook payload.
-4. Since formdata is not available in jira webhook method, Configured the automation rule in Help desk project.
-5. Tried with different mode of payload to get the formdata. This also didn't help.
-6. Later identified an open issue were smart value is not available for form datas. We need to handel is separately. Currently this feature is under development. https://jira.atlassian.com/browse/JSDCLOUD-10697
-7. Couple of work arround has identified and we could get the form data. But it need logical post processing.
-  1. First one is RestAPI.
-  2. Second one is automation rule with some magical index mapping.
-8.  I got the JSON payload structure and will start the app function coding part.
+1. Tried to perform a ceanup of infra which was created with state file in wrong RG location.
+2. Fixed the user name issue by hardcoding the usernames.
+3. Post meeting, Jira Form Cleanup is done.
+4. Terraform code cleanup also done.
+5. Service connection details are updated in the pipeline.
+6. Old Infra was cleaned up which created the state file in wrong storage account.
+7. Confirmed new Updated Jira Form reaches the App Function and Pipeline Job got triggered.
+8. Terraform apply was successful.
 
 Thursday:
-1. Finally,Today I couldable to break the complex json of dynamic form in jira automation.  
-2. Tested the json payload by triggering the new jira request. 
-3. jira automation custom form payload was sucessfully parsed in azure-app function.
-4. Again in azure function we need to do some numbering logic to pick correct option as configured in jira request. Which was done and tested.
-5. Created a new azure repository for residency mvp. 
-6. Copied the azure devops  pipeline of vmtest repo to new residency mvp repo.
-7. From azure function, I managed to trigger the new azure devops pipeline with existing APIToken.
-8. Custom payload for residency mvp pipeline was configured from azure function.
-9. Azure pipeline paramete list are also updated based on custom payload that we sent via app function.
-10. Terraform part is pending.
+1. Started analysiing the feedback loop of azure pipeline to jira field.
+2. Tried multiple option, Throwing different different error.
+3. In the mean time, AZure Devops PAT got expired. After a long analysis finally Identified that and fixed it.
+4. Later identified a way to catch the pipeline staus and post the status to jira. But not tested.
+
+Friday:
+1. I tried to post pipeline status based on deops events in pipeline staged. Tried with RESTAPI, Facing some issue.
+2. Tried to post comment from local and finalized the command.
+3. Integrated it with azure pipeline as script and triggered the build.
+4. Verified the comments are added to the jira.
+5. Looking at other possible places like azure function to add notification.
+6. CMDB integration is also in progress.
+
