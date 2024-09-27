@@ -3,39 +3,29 @@ Devops repo
 
 Last week Terraform part was pending.
 Monday:
-1. Completed the Terraform coding part.
-2. Tried to test the code in azure devops pipeline.
-3. But due to some service connection misconfiguration I couldn't test the full flow.
-4. From jira to Azure pipeline flow is working. But the pipeline execution still failing.
+1. 1. Enabled the jira comment addition from azure function.
+2. Added the CMDB field into the jira form and cleaned up the remaining fields from jira form.
+3. Constructed the automation rule to pass the CMDB data field to Azure function.
+4. Verified that the azure function could able to hit CMDB and retrive dtat from it.
+5. Still we need to parse the CMDB API respose to filterout the required filed and validation checks need to be added. - Inprogress
 
 Tuesday:
-1. Pipeline issue resolved, But adding fresh secretkeys to Service-connection. Post that Terraform Plan was successful in azure pipeline.
-2. But the Terraform apply was failing with permission issue for AD.
-3. Later fixed it by changing the service connection to Application_Admin. 
-4. One more issue noticed that the User select and its associated email is not similar to Azure AD user.
-5. So whatever jira value that we select in Jira Form, Won't map with Azure AD data.
+1. CMDB Json parsing is done and I could validate the required fields.
+2. Subscription validation is also done and feedback is posted to AZure.
+3. rg and SPN validation code are implemented, Need to test the code changes.
+   
 
 Wednesday:
-1. Tried to perform a ceanup of infra which was created with state file in wrong RG location.
-2. Fixed the user name issue by hardcoding the usernames.
-3. Post meeting, Jira Form Cleanup is done.
-4. Terraform code cleanup also done.
-5. Service connection details are updated in the pipeline.
-6. Old Infra was cleaned up which created the state file in wrong storage account.
-7. Confirmed new Updated Jira Form reaches the App Function and Pipeline Job got triggered.
-8. Terraform apply was successful.
+1. Need clarification on Subscription  Env and Resource Group Env
+2. What ever environments given in JSM not mapped to subscription ENV
+3. Most of the time spend on this service principal validation and implementation.(Still pending)
+   
 
 Thursday:
-1. Started analysiing the feedback loop of azure pipeline to jira field.
-2. Tried multiple option, Throwing different different error.
-3. In the mean time, AZure Devops PAT got expired. After a long analysis finally Identified that and fixed it.
-4. Later identified a way to catch the pipeline staus and post the status to jira. But not tested.
+1. 1. API validation for subscription with rg and SPNs check before ado validation - Done 
+2. ⁠CMDB Params cleanup in az function - Done 
+3. ⁠Azure automation flow condition trigger for re-post the issue (validation failure scenarios ) - Done 
+4. ⁠ADO pipeline tf approval and select subscription option after tf plan - Done
 
 Friday:
-1. I tried to post pipeline status based on deops events in pipeline staged. Tried with RESTAPI, Facing some issue.
-2. Tried to post comment from local and finalized the command.
-3. Integrated it with azure pipeline as script and triggered the build.
-4. Verified the comments are added to the jira.
-5. Looking at other possible places like azure function to add notification.
-6. CMDB integration is also in progress.
-
+1. testing
