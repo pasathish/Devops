@@ -3,29 +3,36 @@ Devops repo
 
 Last week Terraform part was pending.
 Monday:
-1. 1. Enabled the jira comment addition from azure function.
-2. Added the CMDB field into the jira form and cleaned up the remaining fields from jira form.
-3. Constructed the automation rule to pass the CMDB data field to Azure function.
-4. Verified that the azure function could able to hit CMDB and retrive dtat from it.
-5. Still we need to parse the CMDB API respose to filterout the required filed and validation checks need to be added. - Inprogress
+
 
 Tuesday:
-1. CMDB Json parsing is done and I could validate the required fields.
-2. Subscription validation is also done and feedback is posted to AZure.
-3. rg and SPN validation code are implemented, Need to test the code changes.
+1. View permission to see the KV secret. ( For Demo)
+2. Resource cleanup and keeping the clean for Demo
+3. Removed the policies that are associated with Management Group.
+4. Started working on policy as code.
    
 
 Wednesday:
-1. Need clarification on Subscription  Env and Resource Group Env
-2. What ever environments given in JSM not mapped to subscription ENV
-3. Most of the time spend on this service principal validation and implementation.(Still pending)
+1. Configured the azure devops pipeline for Policy as Code.
+2. Designed the terraform workflow as a gitOps way for policy creation and policy attacment.
+3. Wrote a simple policy to attach to the a resource scope and tested the pipeline.
+4. JSM Demo session
+5. New policies are created via json definitions
    
 
 Thursday:
-1. 1. API validation for subscription with rg and SPNs check before ado validation - Done 
-2. ⁠CMDB Params cleanup in az function - Done 
-3. ⁠Azure automation flow condition trigger for re-post the issue (validation failure scenarios ) - Done 
-4. ⁠ADO pipeline tf approval and select subscription option after tf plan - Done
+1. Explored the other possibilites of policy attachment scope.
+2. Enhanced the terraform moduled to support below set of policy attachment scopes.
+   1. Resource Scope
+   2. Resource_Group Scope 
+   3. Management Scope
+   4. Subscription  Scope
+3. Above scopes are parameterised and cleanly handeled via tfvars.
+4. Terraform plan for new policy creation and attachment was successfull.
+5. Facing challenges while doing terraform apply. Service Connectio is not having permission to create policies.
+6. Validating pipeline for built in policies and Custom policies.
+
 
 Friday:
-1. testing
+1. Addressing JSM feedback.
+
