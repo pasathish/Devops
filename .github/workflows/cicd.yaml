@@ -25,11 +25,11 @@ jobs:
     environment: main
     needs: [build]
     steps:
-      # - uses: actions/checkout@v1
-      # - name: Set up JDK 11
-      #   uses: actions/setup-java@v1
-      #   with:
-      #     java-version: 11.0.4
+      - uses: actions/checkout@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.4
       - name: Maven Package
         run: mvn -B clean package 
       - name: Maven Verify
@@ -39,6 +39,7 @@ jobs:
     name: Test - SonarCloud Scan
     runs-on: ubuntu-22.04
     environment: main
+    needs: [test]
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 11
