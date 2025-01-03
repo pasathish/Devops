@@ -8,7 +8,7 @@ on:
 jobs:
   
   build:
-    uses: pasathish/PerformanceTool/client/workflow.yml@master
+    uses: pasathish/PerformanceTool/.github/workflows/cicd.yml@master
   
   test:
     name: Test - Units & Integrations
