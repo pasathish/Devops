@@ -9,7 +9,7 @@ jobs:
   
   build:
     name: Build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 11
@@ -21,7 +21,7 @@ jobs:
   
   test:
     name: Test - Units & Integrations
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     environment: main
     steps:
       - uses: actions/checkout@v1
@@ -36,7 +36,7 @@ jobs:
 
   sonar:
     name: Test - SonarCloud Scan
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     environment: main
     steps:
       - uses: actions/checkout@v1
@@ -65,7 +65,7 @@ jobs:
           
   artifact:
     name: Publish - GitHub Packages
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     needs: [test, sonar]
     environment: main
     steps:
@@ -85,7 +85,7 @@ jobs:
 
   docker:
     name: Publish - Docker Hub
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     needs: [test, sonar]
     environment: main
     env:
